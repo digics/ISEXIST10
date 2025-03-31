@@ -4,64 +4,64 @@
 #___________________________________________________________
 # isexist v1.0 ( 2025.4.1 ) ################################
 #
-#	by digi_cs 2025
+#     by digi_cs 2025
 #
-#	PLEASE DOWNLOAD LATEST VERSION FROM: github.com/digics/isexist10
+#     PLEASE DOWNLOAD LATEST VERSION FROM: github.com/digics/isexist10
 #
 #___________________________________________________________
 ############################################################
 ############################################################
 ############################################################
 
-func	isexist( f ,a,b,c,r ) {
+func  isexist( f ,a,b,c,r ) {
 
-	# f		- filepath
-	#
-	#_________________
+      # f         - filepath
+      #
+      #_________________
 
-	a = ERRNO; b = RS; c = RT
+      a = ERRNO; b = RS; c = RT
 
-	ERRNO = ""; RS = "(^)"
+      ERRNO = ""; RS = "(^)"
 
-	gsub( /^[\x00\x09\x20]+|[\x00\x09\x20]+$/, "", f )
-	gsub( /[\x00\x09\x20]*([\/\\]+[\x00\x09\x20]*)+/, "/", f )
-	sub( /\/$/, "", f )
+      gsub( /^[\x00\x09\x20]+|[\x00\x09\x20]+$/, "", f )
+      gsub( /[\x00\x09\x20]*([\/\\]+[\x00\x09\x20]*)+/, "/", f )
+      sub( /\/$/, "", f )
 
-	if ( f == "" )
+      if ( f == "" )
 
-		return
+            return
 
-	getline r < f
+      getline r < f
 
-	r = ERRNO
+      r = ERRNO
 
-	close( f )
+      close( f )
 
-	ERRNO = a; RS = b; RT = c
+      ERRNO = a; RS = b; RT = c
 
-	switch ( r ) {
+      switch ( r ) {
 
-		case "":
+            case "":
 
-			return "file"
+                  return "file"
 
-		case "No such file or directory":
+            case "No such file or directory":
 
-		case "Invalid argument":
+            case "Invalid argument":
 
-			return
+                  return
 
-		case "Is a directory":
+            case "Is a directory":
 
-		case /permission denied/:
+            case /permission denied/:
 
-			return "folder"
+                  return "folder"
 
-		default:
+            default:
 
-			print "isexist( " f ": fatal: unknown ERRNO: " r " )" > "/dev/stderr"
+                  print "isexist( " f ": fatal: unknown ERRNO: " r " )" > "/dev/stderr"
 
-			exit } }
+                  exit } }
 
 #___________________________________________________________
 ############################################################
